@@ -1,4 +1,8 @@
-/* =============== LOGIN + FULLSCREEN =============== */
+/* ======================================================
+   LOGIN + FULLSCREEN
+   - SEM AUTOLOGIN: a tela de login sempre aparece.
+   - Apenas pré-preenche os campos se já houver dados salvos.
+   ====================================================== */
 const overlay = document.getElementById('loginOverlay');
 const form = document.getElementById('loginForm');
 const erro = document.getElementById('loginErro');
@@ -13,8 +17,6 @@ const btnVoltar = document.getElementById('btnVoltar');
 
 const telInput = document.getElementById('telefone');
 const nomeInput = document.getElementById('nome');
-
-/* ——— SEM AUTLOGIN: sempre abre no login ——— */
 
 /* Preenche automaticamente (sem logar) se houver dados salvos */
 (function prefillSaved() {
@@ -37,7 +39,7 @@ function validarNome(nome) {
 }
 function validarTelefone(telefone) {
   const digits = (telefone || '').replace(/\D/g, '');
-  return digits.length >= 10 && digits.length <= 11; // BR
+  return digits.length >= 10 && digits.length <= 11; // Brasil: 10 ou 11 dígitos
 }
 
 /* Fullscreen no clique do logo */
@@ -54,7 +56,7 @@ logoBtn.addEventListener('click', async () => {
   } catch (_) {}
 });
 
-/* Submit login (sempre necessário) */
+/* Submit do Login (sempre necessário) */
 form.addEventListener('submit', (e) => {
   e.preventDefault();
   erro.classList.add('hidden');
@@ -68,7 +70,7 @@ form.addEventListener('submit', (e) => {
     return;
   }
 
-  // salva apenas para facilitar próximos preenchimentos
+  // Salva apenas para facilitar no próximo preenchimento
   localStorage.setItem('jogador_memoria', JSON.stringify({ nome, telefone, ts: Date.now() }));
   liberarJogo(nome);
 });
@@ -81,7 +83,11 @@ function liberarJogo(nome) {
   initGame(nome);
 }
 
-/* =============== RANKING (localStorage) =============== */
+/* ======================================================
+   RANKING (localStorage)
+   - Guarda todas as partidas, ordena por score desc e tempo asc.
+   - Exibe TOP 3 no final.
+   ====================================================== */
 function getRanking() {
   try { return JSON.parse(localStorage.getItem('memoria_ranking')) || []; }
   catch { return []; }
@@ -112,32 +118,38 @@ function showRanking(entryText) {
   rankingOverlay.classList.remove('hidden');
 }
 
-/* Voltar: mostra login novamente (sem limpar os campos já salvos) */
+/* Voltar para a tela inicial (login) */
 btnVoltar.addEventListener('click', () => {
   overlay.classList.remove('hidden');
   rankingOverlay.classList.add('hidden');
   gameContainer.classList.add('hidden');
 });
 
-/* =============== JOGO DA MEMÓRIA =============== */
+/* ======================================================
+   JOGO DA MEMÓRIA (lógica base mantida)
+   ====================================================== */
 function initGame(nomeJogador) {
+  // Baralho (8 pares = 16 cartas)
   const cardsArray = [
-    '1.png','2.png','3.png','4.png',
-    '5.png','6.png','7.png','8.png'
+    '01.jpg','02.jpg','03.jpg','04.jpg',
+    '05.jpg','06.jpg','07.jpg','08.jpg'
   ];
+  // Duplicar + embaralhar
   let cards = [...cardsArray, ...cardsArray].sort(() => 0.5 - Math.random());
 
+  // Elementos da UI
   const gameBoard = document.getElementById('gameBoard');
   const scoreDisplay = document.getElementById('score');
   const timerDisplay = document.getElementById('timer');
   const winMessage = document.getElementById('winMessage');
 
+  // Estado
   let revealedCards = [];
   let matched = [];
   let score = 0;
   let startTime = Date.now();
   let gameEnded = false;
-  const maxTime = 30;
+  const maxTime = 30; // segundos
 
   // Reset visual
   gameBoard.innerHTML = '';
@@ -145,6 +157,7 @@ function initGame(nomeJogador) {
   scoreDisplay.textContent = 'Pontos: 0';
   timerDisplay.textContent = `Tempo: ${maxTime}s`;
 
+  // Timer
   const timerInterval = setInterval(() => {
     const elapsed = Math.floor((Date.now() - startTime) / 1000);
     const remaining = maxTime - elapsed;
@@ -152,6 +165,7 @@ function initGame(nomeJogador) {
     if (remaining <= 0 && !gameEnded) endGame(false);
   }, 1000);
 
+  // Render das cartas
   function createBoard() {
     cards.forEach((symbol, index) => {
       const card = document.createElement('div');
@@ -163,6 +177,7 @@ function initGame(nomeJogador) {
     });
   }
 
+  // Virar carta
   function flipCard() {
     const card = this;
     if (gameEnded ||
@@ -181,6 +196,7 @@ function initGame(nomeJogador) {
     if (revealedCards.length === 2) checkMatch();
   }
 
+  // Verificar par
   function checkMatch() {
     const [first, second] = revealedCards;
 
@@ -207,10 +223,12 @@ function initGame(nomeJogador) {
     }, 800);
   }
 
+  // Checar vitória
   function checkWin() {
     if (matched.length === cardsArray.length) endGame(true);
   }
 
+  // Fim de jogo
   function endGame(victory) {
     gameEnded = true;
     clearInterval(timerInterval);
@@ -219,14 +237,13 @@ function initGame(nomeJogador) {
       ? `🎉 Parabéns! Você venceu com ${score} pontos em ${elapsed}s!`
       : `⏳ Tempo esgotado! Você fez ${score} pontos.`;
 
+    // Salvar e mostrar ranking
     addToRanking({ nome: nomeJogador, score, elapsed, ts: Date.now() });
     showRanking(msg);
   }
 
   createBoard();
 }
-
-
 
 
 
