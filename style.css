@@ -5,37 +5,38 @@ html, body { height: 100%; }
 
 body {
   margin: 0;
-  padding: 0;
   font-family: 'Fredoka', system-ui, -apple-system, Arial, sans-serif;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
 
-  /* Fundo com a imagem enviada */
-  background: #bfe1f5 url('fundo.png') center top / cover no-repeat fixed;
+  /* IMAGEM DE FUNDO nítida em TODAS as telas */
+  background-image: url('fundo.png');
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover; /* preenche sem distorcer */
 }
 
-/* ------- Overlay base (login e ranking) ------- */
+/* ====== Overlays (login e ranking) sem blur ====== */
 .overlay{
   position: fixed;
   inset: 0;
   display: grid;
   place-items: center;
-  backdrop-filter: blur(1.5px);
+  /* véu leve sem blur (não reduz nitidez do fundo) */
+  background: rgba(0,0,0,0.12);
   z-index: 20;
 }
-.hidden { display: none !important; }
+.hidden{ display: none !important; }
 
-/* ------- Login ------- */
-.login-card{
-  width: min(92vw, 460px);
-  background: rgba(255,255,255,0.95);
+/* ====== Painéis (login, jogo e ranking) com a MESMA “resolução” ====== */
+.panel{
+  width: min(96vw, 520px);            /* mesmo limite do jogo e ranking */
+  background: rgba(255,255,255,0.92); /* sem blur */
   border-radius: 20px;
-  padding: 24px;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.18);
-  text-align: center;
+  padding: 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.16);
 }
+
+/* ====== Login ====== */
+.login-card{ text-align: center; }
 .logo-btn{
   width: min(70vw, 260px);
   display: block;
@@ -52,6 +53,7 @@ body {
   text-shadow: 0 1px 0 #fff, 0 4px 14px rgba(0,0,0,.12);
 }
 .subtitle{ margin: 0 0 18px; color:#555; font-weight:600; }
+
 form label{
   display:block; text-align:left; margin:10px 4px 6px;
   font-size:14px; color:#444; font-weight:600;
@@ -59,7 +61,7 @@ form label{
 form input{
   width:100%; padding:12px 14px; font-size:16px;
   border:2px solid #e7e7e7; border-radius:12px; outline:none;
-  transition: border-color .2s, box-shadow .2s, background .2s;
+  transition: border-color .2s, box-shadow .2s;
   background:#fff;
 }
 form input:focus{
@@ -77,15 +79,8 @@ form input:focus{
 .btn-primary:active{ transform: translateY(1px); }
 .erro{ margin-top:10px; color:#b00020; font-weight:700; }
 
-/* ------- Container do jogo ------- */
-.container {
-  width: min(96vw, 520px);
-  text-align: center;
-  padding: 20px;
-  background-color: rgba(255,255,255,0.92);
-  border-radius: 20px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
-}
+/* ====== Jogo ====== */
+.container { text-align: center; }
 .game-title {
   font-size: 2.2rem;
   margin: 0 0 10px;
@@ -131,15 +126,8 @@ form input:focus{
 .card img { width: 100%; height: 100%; object-fit: cover; border-radius: 15px; }
 #winMessage { margin-top: 18px; font-size: 1.2rem; color: #444; font-weight: 800; }
 
-/* ------- Ranking ------- */
-.ranking-card{
-  width: min(92vw, 500px);
-  background: rgba(255,255,255,0.96);
-  border-radius: 20px;
-  padding: 22px;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.18);
-  text-align: center;
-}
+/* ====== Ranking (mesma largura do jogo) ====== */
+.ranking-card{ text-align: center; }
 .ranking-title{ margin: 0 0 8px; color:#1f2937; }
 .last-result{ margin: 2px 0 12px; color:#374151; font-weight:600; }
 .ranking-list{
@@ -152,6 +140,7 @@ form input:focus{
   overflow: auto;
   margin: 0 0 14px;
 }
+.ranking-actions{ display:flex; justify-content:center; gap:10px; }
 .btn-secondary{
   padding: 10px 16px;
   border: none; border-radius: 12px;
@@ -169,4 +158,3 @@ form input:focus{
   }
   .card { width: 78px; height: 78px; }
 }
-
