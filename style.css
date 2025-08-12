@@ -28,8 +28,8 @@ html, body { height: 100%; }
   --card-border-width: 4px;  /* espessura do contorno */
 
   /* 🔧 PAINEL DE LOGIN (LxA) */
-  --login-w: 520px;          /* largura máx. login */
-  --login-h: 620px;          /* altura máx. login */
+  --login-w: 420px;          /* largura máx. login */
+  --login-h: 520px;          /* altura máx. login */
 
   /* 🔧 PAINEL DO JOGO (LxA) */
   --game-w: 720px;           /* largura máx. jogo */
@@ -237,3 +237,4 @@ form input:focus{
     --rank-w: 460px;
   }
 }
+
