@@ -14,19 +14,27 @@ html, body { height: 100%; }
    Ajuste estes valores e o layout todo se adapta. ;)
    ======================================================= */
 :root{
-  /* CORES */
-  --panel-bg: #f2d8c9;      /* painel login/jogo/ranking */
+  /* CORES (mantidas) */
+  --panel-bg: #f2d8c9;
   --text: #2b2b2b;
   --accent: #ff6f61;
-  --card-bg: #ce2e3a;       /* fundo da carta */
-  --card-border: #404a91;   /* contorno da carta */
+  --card-bg: #ce2e3a;
+  --card-border: #404a91;
 
-  /* TAMANHOS (maiores que antes) */
-  --panel-max: 780px;       /* antes ~520px */
-  --card-size: 170px;       /* antes ~100px */
-  --gap: 28px;              /* antes ~15px */
-  --card-border-width: 4px; /* antes 4px fixo */
+  /* 🔧 TAMANHO DO TABULEIRO (independente do painel) */
+  --card-size: 120px;        /* lado da carta */
+  --gap: 18px;               /* espaçamento entre cartas */
+  --card-border-width: 4px;  /* espessura da borda da carta */
+
+  /* 🔧 TAMANHO DE CADA PAINEL (independentes entre si) */
+  --login-max: 520px;        /* largura máx. da caixa de login */
+  --game-max: 680px;         /* largura máx. do painel do jogo */
+  --rank-max: 520px;         /* largura máx. do painel de ranking */
+
+  /* (opcional) tamanho máx. da logo no login */
+  --logo-max: 200px;
 }
+
 
 body {
   margin: 0;
@@ -200,6 +208,7 @@ form input:focus{
     --gap: 12px;
   }
 }
+
 
 
 
