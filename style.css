@@ -38,7 +38,7 @@ html, body { height: 100%; }
   --rank-h: 700px;
 
   /* (opcional) LOGO no login */
-  --logo-max: 180px;        /* ajuste livre da logo */
+  --logo-max: 100px;        /* ajuste livre da logo */
 }
 
 body {
@@ -249,6 +249,7 @@ form input:focus{
     --rank-w: 460px;
   }
 }
+
 
 
 
