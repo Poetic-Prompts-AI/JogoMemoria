@@ -1,6 +1,4 @@
-/* =========================
-   LOGIN + FULLSCREEN
-   ========================= */
+/* =============== LOGIN + FULLSCREEN =============== */
 const overlay = document.getElementById('loginOverlay');
 const form = document.getElementById('loginForm');
 const erro = document.getElementById('loginErro');
@@ -13,7 +11,6 @@ const rankingList = document.getElementById('rankingList');
 const lastResult = document.getElementById('lastResult');
 const btnVoltar = document.getElementById('btnVoltar');
 
-// Apenas números no telefone
 const telInput = document.getElementById('telefone');
 telInput.addEventListener('input', function () {
   this.value = this.value.replace(/\D/g, '');
@@ -24,7 +21,7 @@ function validarNome(nome) {
 }
 function validarTelefone(telefone) {
   const digits = (telefone || '').replace(/\D/g, '');
-  return digits.length >= 10 && digits.length <= 11; // BR: 10 ou 11
+  return digits.length >= 10 && digits.length <= 11;
 }
 
 /* Fullscreen no clique do logo */
@@ -38,10 +35,10 @@ logoBtn.addEventListener('click', async () => {
              elem.webkitRequestFullscreen?.() ||
              elem.msRequestFullscreen?.());
     }
-  } catch (_) { /* ignora erros de FS */ }
+  } catch (_) {}
 });
 
-/* Autologin se já tem salvo */
+/* Autologin se tiver salvo */
 (function autoLoginSeSalvo() {
   try {
     const raw = localStorage.getItem('jogador_memoria');
@@ -79,13 +76,10 @@ function liberarJogo(nome) {
   initGame(nome);
 }
 
-/* =========================
-   RANKING (localStorage)
-   ========================= */
+/* =============== RANKING (localStorage) =============== */
 function getRanking() {
-  try {
-    return JSON.parse(localStorage.getItem('memoria_ranking')) || [];
-  } catch (_) { return []; }
+  try { return JSON.parse(localStorage.getItem('memoria_ranking')) || []; }
+  catch { return []; }
 }
 function saveRanking(list) {
   localStorage.setItem('memoria_ranking', JSON.stringify(list));
@@ -93,38 +87,36 @@ function saveRanking(list) {
 function addToRanking(entry) {
   const list = getRanking();
   list.push(entry);
-  // Ordena: maior score primeiro; em empate, menor tempo primeiro
   list.sort((a, b) => (b.score - a.score) || (a.elapsed - b.elapsed));
   saveRanking(list);
   return list;
 }
-function showRanking(entryText) {
-  const list = getRanking().slice(0, 3);
+function renderTop3() {
   rankingList.innerHTML = '';
-  list.forEach((it, i) => {
+  getRanking().slice(0, 3).forEach((it, i) => {
     const li = document.createElement('li');
     li.textContent = `${i+1}. ${it.nome} — ${it.score} pts — ${it.elapsed}s`;
     rankingList.appendChild(li);
   });
+}
+function showRanking(entryText) {
   lastResult.textContent = entryText || '';
+  renderTop3();
   gameContainer.classList.add('hidden');
   overlay.classList.add('hidden');
   rankingOverlay.classList.remove('hidden');
 }
 btnVoltar.addEventListener('click', () => {
-  // volta para tela inicial (mantendo dados salvos para auto-preencher)
   overlay.classList.remove('hidden');
   rankingOverlay.classList.add('hidden');
   gameContainer.classList.add('hidden');
 });
 
-/* =========================
-   JOGO DA MEMÓRIA (sua base)
-   ========================= */
+/* =============== JOGO DA MEMÓRIA =============== */
 function initGame(nomeJogador) {
   const cardsArray = [
-    '1.png', '2.png', '3.png', '4.png',
-    '5.png', '6.png', '7.png', '8.png'
+    '01.jpg','02.jpg','03.jpg','04.jpg',
+    '05.jpg','06.jpg','07.jpg','08.jpg'
   ];
   let cards = [...cardsArray, ...cardsArray].sort(() => 0.5 - Math.random());
 
@@ -140,95 +132,10 @@ function initGame(nomeJogador) {
   let gameEnded = false;
   const maxTime = 30;
 
-  // Reset visual
   gameBoard.innerHTML = '';
   winMessage.classList.add('hidden');
-  scoreDisplay.textContent = 'Pontos: 0';
-  timerDisplay.textContent = `Tempo: ${maxTime}s`;
+  score
 
-  const timerInterval = setInterval(() => {
-    const elapsed = Math.floor((Date.now() - startTime) / 1000);
-    const remaining = maxTime - elapsed;
-    timerDisplay.textContent = `Tempo: ${remaining}s`;
-    if (remaining <= 0 && !gameEnded) endGame(false);
-  }, 1000);
-
-  function createBoard() {
-    cards.forEach((symbol, index) => {
-      const card = document.createElement('div');
-      card.classList.add('card');
-      card.dataset.symbol = symbol;
-      card.dataset.index = index;
-      card.addEventListener('click', flipCard);
-      gameBoard.appendChild(card);
-    });
-  }
-
-  function flipCard() {
-    const card = this;
-    if (gameEnded ||
-        revealedCards.length >= 2 ||
-        card.classList.contains('revealed') ||
-        card.classList.contains('matched')) return;
-
-    const img = document.createElement('img');
-    img.src = card.dataset.symbol;
-    img.alt = 'carta';
-    card.innerHTML = '';
-    card.appendChild(img);
-    card.classList.add('revealed');
-    revealedCards.push(card);
-
-    if (revealedCards.length === 2) checkMatch();
-  }
-
-  function checkMatch() {
-    const [first, second] = revealedCards;
-
-    if (first.dataset.symbol === second.dataset.symbol) {
-      first.classList.add('matched');
-      second.classList.add('matched');
-      matched.push(first.dataset.symbol);
-      score += 10;
-    } else {
-      score = Math.max(0, score - 2);
-    }
-
-    scoreDisplay.textContent = `Pontos: ${score}`;
-
-    setTimeout(() => {
-      revealedCards.forEach(card => {
-        if (!card.classList.contains('matched')) {
-          card.innerHTML = '';
-          card.classList.remove('revealed');
-        }
-      });
-      revealedCards = [];
-      checkWin();
-    }, 800);
-  }
-
-  function checkWin() {
-    if (matched.length === cardsArray.length) endGame(true);
-  }
-
-  function endGame(victory) {
-    gameEnded = true;
-    clearInterval(timerInterval);
-    const elapsed = Math.floor((Date.now() - startTime) / 1000);
-
-    // Mensagem final
-    winMessage.textContent = victory
-      ? `🎉 Parabéns! Você venceu com ${score} pontos em ${elapsed}s!`
-      : `⏳ Tempo esgotado! Você fez ${score} pontos.`;
-
-    // Salva no ranking e exibe top 3
-    addToRanking({ nome: nomeJogador, score, elapsed, ts: Date.now() });
-    showRanking(winMessage.textContent);
-  }
-
-  createBoard();
-}
 
 
 
