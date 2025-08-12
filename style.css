@@ -23,7 +23,7 @@ html, body { height: 100%; }
   --rank-w: 560px;   --rank-h: 700px;
 
   /* LOGO login */
-  --logo-max: 180px;
+  --logo-max: 100px;
 }
 
 /* preset robusto p/ totem em modo retrato
@@ -116,6 +116,7 @@ form input{ width:100%; padding:12px 14px; font-size:16px; border:2px solid #e7c
     --login-w: 420px; --game-w: 520px; --rank-w: 460px;
   }
 }
+
 
 
 
