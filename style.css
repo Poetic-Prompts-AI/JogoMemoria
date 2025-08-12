@@ -7,35 +7,47 @@ body {
   margin: 0;
   font-family: 'Fredoka', system-ui, -apple-system, Arial, sans-serif;
 
-  /* IMAGEM DE FUNDO nítida em TODAS as telas */
+  /* fundo em alta para TODAS as telas */
   background-image: url('fundo.png');
   background-position: center top;
   background-repeat: no-repeat;
-  background-size: cover; /* preenche sem distorcer */
+  background-size: cover;
+
+  /* volta a centralizar TUDO na tela */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
 }
 
-/* ====== Overlays (login e ranking) sem blur ====== */
+/* ===== Overlays (login e ranking), sem blur ===== */
 .overlay{
   position: fixed;
   inset: 0;
   display: grid;
   place-items: center;
-  /* véu leve sem blur (não reduz nitidez do fundo) */
-  background: rgba(0,0,0,0.12);
+  background: rgba(0,0,0,0.12); /* leve véu sem blur */
   z-index: 20;
 }
 .hidden{ display: none !important; }
 
-/* ====== Painéis (login, jogo e ranking) com a MESMA “resolução” ====== */
+/* ===== Painéis (login, jogo e ranking) — mesma largura/“resolução” ===== */
+:root{
+  --panel-bg: #f2d8c9;     /* COR pedida */
+  --text: #2b2b2b;
+  --accent: #ff6f61;
+}
+
 .panel{
-  width: min(96vw, 520px);            /* mesmo limite do jogo e ranking */
-  background: rgba(255,255,255,0.92); /* sem blur */
+  width: min(96vw, 520px);
+  background: var(--panel-bg);
+  color: var(--text);
   border-radius: 20px;
   padding: 20px;
   box-shadow: 0 8px 24px rgba(0,0,0,0.16);
 }
 
-/* ====== Login ====== */
+/* ===== Login ===== */
 .login-card{ text-align: center; }
 .logo-btn{
   width: min(70vw, 260px);
@@ -52,15 +64,15 @@ body {
   color: #e0394d;
   text-shadow: 0 1px 0 #fff, 0 4px 14px rgba(0,0,0,.12);
 }
-.subtitle{ margin: 0 0 18px; color:#555; font-weight:600; }
+.subtitle{ margin: 0 0 18px; color:#444; font-weight:600; }
 
 form label{
   display:block; text-align:left; margin:10px 4px 6px;
-  font-size:14px; color:#444; font-weight:600;
+  font-size:14px; color:#3a3a3a; font-weight:600;
 }
 form input{
   width:100%; padding:12px 14px; font-size:16px;
-  border:2px solid #e7e7e7; border-radius:12px; outline:none;
+  border:2px solid #e7c9b7; border-radius:12px; outline:none;
   transition: border-color .2s, box-shadow .2s;
   background:#fff;
 }
@@ -68,7 +80,7 @@ form input:focus{
   border-color:#93c5fd;
   box-shadow:0 0 0 4px rgba(147,197,253,.25);
 }
-.hint{ display:block; text-align:left; margin:8px 4px 14px; font-size:12px; color:#666; }
+.hint{ display:block; text-align:left; margin:8px 4px 14px; font-size:12px; color:#5a5a5a; }
 .btn-primary{
   width:100%; padding:12px 16px; border:none; border-radius:12px;
   background: linear-gradient(180deg, #ff7a70, #ff5243);
@@ -79,12 +91,12 @@ form input:focus{
 .btn-primary:active{ transform: translateY(1px); }
 .erro{ margin-top:10px; color:#b00020; font-weight:700; }
 
-/* ====== Jogo ====== */
+/* ===== Jogo ===== */
 .container { text-align: center; }
 .game-title {
   font-size: 2.2rem;
   margin: 0 0 10px;
-  color: #ff6f61;
+  color: var(--accent);
 }
 .status-bar {
   display: grid;
@@ -95,19 +107,19 @@ form input:focus{
   margin-bottom: 16px;
   font-size: 1.05rem;
   font-weight: 700;
-  color: #444;
 }
 #player { justify-self: start; }
 #score, #timer { justify-self: end; }
 
 .board {
+  /* mantém o tabuleiro CENTRALIZADO */
   display: grid;
   grid-template-columns: repeat(4, 100px);
   grid-template-rows: repeat(4, 100px);
   gap: 15px;
-  justify-content: center;
+  margin: 0 auto;           /* centro horizontal */
+  justify-content: center;  /* garante centro */
   align-items: center;
-  margin: 0 auto;
 }
 .card {
   width: 100px;
@@ -124,16 +136,17 @@ form input:focus{
 }
 .card:hover { transform: scale(1.05); box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2); }
 .card img { width: 100%; height: 100%; object-fit: cover; border-radius: 15px; }
-#winMessage { margin-top: 18px; font-size: 1.2rem; color: #444; font-weight: 800; }
 
-/* ====== Ranking (mesma largura do jogo) ====== */
+#winMessage { margin-top: 18px; font-size: 1.2rem; font-weight: 800; }
+
+/* ===== Ranking (mesmo tamanho do jogo) ===== */
 .ranking-card{ text-align: center; }
 .ranking-title{ margin: 0 0 8px; color:#1f2937; }
 .last-result{ margin: 2px 0 12px; color:#374151; font-weight:600; }
 .ranking-list{
   text-align: left;
   background: #fff;
-  border: 1px solid #eee;
+  border: 1px solid #d7bfae;
   border-radius: 12px;
   padding: 12px 16px;
   max-height: 260px;
