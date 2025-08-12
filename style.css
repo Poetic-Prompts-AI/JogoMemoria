@@ -69,7 +69,7 @@ body {
 /* ===== Login ===== */
 .login-card{ text-align: center; }
 .logo-btn{
-  width: min(70vw, 280px);
+  width: min(70vw, 200px);
   display: block;
   margin: 0 auto 10px;
   cursor: pointer;
@@ -200,6 +200,7 @@ form input:focus{
     --gap: 12px;
   }
 }
+
 
 
 
