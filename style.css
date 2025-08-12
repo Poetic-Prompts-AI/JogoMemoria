@@ -1,14 +1,31 @@
+/* (opcional) fonte fallback */
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap');
 
 * { box-sizing: border-box; }
 html, body { height: 100%; }
 
+/* =======================================================
+   🔧 CONTROLES DE TAMANHO (AQUI você aumenta/diminui tudo)
+   -------------------------------------------------------
+   - --panel-max: largura máxima do painel (login, jogo, ranking)
+   - --card-size: tamanho do lado das cartas (tabuleiro maior/menor)
+   - --gap: espaçamento entre cartas
+   - --card-border-width: espessura do contorno das cartas
+   Ajuste estes valores e o layout todo se adapta. ;)
+   ======================================================= */
 :root{
+  /* CORES */
   --panel-bg: #f2d8c9;      /* painel login/jogo/ranking */
   --text: #2b2b2b;
   --accent: #ff6f61;
   --card-bg: #ce2e3a;       /* fundo da carta */
   --card-border: #404a91;   /* contorno da carta */
+
+  /* TAMANHOS (maiores que antes) */
+  --panel-max: 680px;       /* antes ~520px */
+  --card-size: 120px;       /* antes ~100px */
+  --gap: 18px;              /* antes ~15px */
+  --card-border-width: 4px; /* antes 4px fixo */
 }
 
 body {
@@ -34,14 +51,14 @@ body {
   inset: 0;
   display: grid;
   place-items: center;
-  background: rgba(0,0,0,0.12); /* leve véu sem blur (não piora a nitidez) */
+  background: rgba(0,0,0,0.12); /* leve véu sem blur (mantém nitidez) */
   z-index: 20;
 }
 .hidden{ display: none !important; }
 
 /* ===== Painéis (login, jogo e ranking) — mesma largura/“resolução” ===== */
 .panel{
-  width: min(96vw, 520px);
+  width: min(96vw, var(--panel-max));  /* usa variável de controle */
   background: var(--panel-bg);
   color: var(--text);
   border-radius: 20px;
@@ -52,7 +69,7 @@ body {
 /* ===== Login ===== */
 .login-card{ text-align: center; }
 .logo-btn{
-  width: min(70vw, 260px);
+  width: min(70vw, 280px);
   display: block;
   margin: 0 auto 10px;
   cursor: pointer;
@@ -113,22 +130,23 @@ form input:focus{
 #player { justify-self: start; }
 #score, #timer { justify-self: end; }
 
+/* TABULEIRO MAIOR — usa as variáveis acima */
 .board {
-  /* mantém o tabuleiro CENTRALIZADO */
   display: grid;
-  grid-template-columns: repeat(4, 100px);
-  grid-template-rows: repeat(4, 100px);
-  gap: 15px;
+  grid-template-columns: repeat(4, var(--card-size)); /* LARGURA da carta */
+  grid-template-rows:    repeat(4, var(--card-size)); /* ALTURA da carta */
+  gap: var(--gap);                                   /* espaçamento entre cartas */
   margin: 0 auto;           /* centro horizontal */
   justify-content: center;  /* garante centro */
   align-items: center;
 }
 
+/* CARTAS MAIORES */
 .card {
-  width: 100px;
-  height: 100px;
-  background-color: var(--card-bg);      /* fundo pedido */
-  border: 4px solid var(--card-border);  /* contorno pedido */
+  width: var(--card-size);
+  height: var(--card-size);
+  background-color: var(--card-bg);      /* fundo da carta */
+  border: var(--card-border-width) solid var(--card-border);  /* espessura + cor do contorno */
   border-radius: 15px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
   cursor: pointer;
@@ -146,7 +164,8 @@ form input:focus{
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 11px; /* menor para a borda aparecer */
+  /* raio levemente menor pra borda ficar visível */
+  border-radius: 12px;
 }
 
 #winMessage { margin-top: 18px; font-size: 1.2rem; font-weight: 800; }
@@ -174,13 +193,10 @@ form input:focus{
 }
 .btn-secondary:hover{ filter: brightness(1.05); }
 
-/* responsivo */
+/* ===== Responsivo: se a tela for estreita, reduz um pouco as cartas ===== */
 @media (max-width: 420px){
-  .board{
-    grid-template-columns: repeat(4, 78px);
-    grid-template-rows: repeat(4, 78px);
-    gap: 12px;
+  :root{
+    --card-size: 96px; /* ajuste livre para mobile */
+    --gap: 12px;
   }
-  .card { width: 78px; height: 78px; }
 }
-
