@@ -1,12 +1,12 @@
 const cardsArray = [
-  'images/01.png',
-  'images/02.png',
-  'images/03.png',
-  'images/04.png',
-  'images/05.png',
-  'images/06.png',
-  'images/07.png',
-  'images/08.png'
+  '01.jpg',
+  '02.jpg',
+  '03.jpg',
+  '04.jpg',
+  '05.jpg',
+  '06.jpg',
+  '07.jpg',
+  '08.jpg'
 ];
 
 let cards = [...cardsArray, ...cardsArray].sort(() => 0.5 - Math.random());
@@ -106,3 +106,4 @@ function endGame(victory) {
 }
 
 createBoard();
+
