@@ -20,7 +20,7 @@ html, body { height: 100%; }
   --text: #2b2b2b;
   --accent: #ff6f61;
   --card-bg: #ce2e3a;      /* fundo da carta */
-  --card-border: #404a91;  /* contorno da carta */
+  --card-border: #404a91;  /* contorno da carta */  
 
   /* 🔧 TABULEIRO (independente do painel) */
   --card-size: 140px;        /* lado da carta */
@@ -32,8 +32,8 @@ html, body { height: 100%; }
   --login-h: 620px;          /* altura máx. login */
 
   /* 🔧 PAINEL DO JOGO (LxA) */
-  --game-w: 920px;           /* largura máx. jogo */
-  --game-h: 1900px;           /* altura máx. jogo */
+  --game-w: 900px;           /* largura máx. jogo */
+  --game-h: 800px;           /* altura máx. jogo */
 
   /* 🔧 PAINEL DO RANKING (LxA) */
   --rank-w: 560px;           /* largura máx. ranking */
@@ -237,6 +237,7 @@ form input:focus{
     --rank-w: 460px;
   }
 }
+
 
 
 
