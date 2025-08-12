@@ -23,7 +23,7 @@ html, body { height: 100%; }
 
   /* TAMANHOS (maiores que antes) */
   --panel-max: 780px;       /* antes ~520px */
-  --card-size: 220px;       /* antes ~100px */
+  --card-size: 170px;       /* antes ~100px */
   --gap: 28px;              /* antes ~15px */
   --card-border-width: 4px; /* antes 4px fixo */
 }
@@ -200,6 +200,7 @@ form input:focus{
     --gap: 12px;
   }
 }
+
 
 
 
