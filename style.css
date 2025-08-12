@@ -32,8 +32,8 @@ html, body { height: 100%; }
   --login-h: 620px;          /* altura máx. login */
 
   /* 🔧 PAINEL DO JOGO (LxA) */
-  --game-w: 900px;           /* largura máx. jogo */
-  --game-h: 800px;           /* altura máx. jogo */
+  --game-w: 1080px;           /* largura máx. jogo */
+  --game-h: 1920px;           /* altura máx. jogo */
 
   /* 🔧 PAINEL DO RANKING (LxA) */
   --rank-w: 560px;           /* largura máx. ranking */
@@ -237,6 +237,7 @@ form input:focus{
     --rank-w: 460px;
   }
 }
+
 
 
 
