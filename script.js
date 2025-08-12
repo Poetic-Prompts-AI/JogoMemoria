@@ -1,7 +1,5 @@
 /* ======================================================
-   LOGIN + FULLSCREEN
-   - SEM AUTOLOGIN: a tela de login sempre aparece.
-   - Apenas pré-preenche os campos se já houver dados salvos.
+   LOGIN + FULLSCREEN (SEM AUTLOGIN — sempre abre login)
    ====================================================== */
 const overlay = document.getElementById('loginOverlay');
 const form = document.getElementById('loginForm');
@@ -39,7 +37,7 @@ function validarNome(nome) {
 }
 function validarTelefone(telefone) {
   const digits = (telefone || '').replace(/\D/g, '');
-  return digits.length >= 10 && digits.length <= 11; // Brasil: 10 ou 11 dígitos
+  return digits.length >= 10 && digits.length <= 11; // Brasil
 }
 
 /* Fullscreen no clique do logo */
@@ -84,9 +82,7 @@ function liberarJogo(nome) {
 }
 
 /* ======================================================
-   RANKING (localStorage)
-   - Guarda todas as partidas, ordena por score desc e tempo asc.
-   - Exibe TOP 3 no final.
+   RANKING (localStorage) — Top 3 por score e tempo
    ====================================================== */
 function getRanking() {
   try { return JSON.parse(localStorage.getItem('memoria_ranking')) || []; }
@@ -131,8 +127,8 @@ btnVoltar.addEventListener('click', () => {
 function initGame(nomeJogador) {
   // Baralho (8 pares = 16 cartas)
   const cardsArray = [
-    '1.png','2.png','3.png','4.png',
-    '5.png','6.png','7.png','8.png'
+    '01.jpg','02.jpg','03.jpg','04.jpg',
+    '05.jpg','06.jpg','07.jpg','08.jpg'
   ];
   // Duplicar + embaralhar
   let cards = [...cardsArray, ...cardsArray].sort(() => 0.5 - Math.random());
@@ -244,7 +240,3 @@ function initGame(nomeJogador) {
 
   createBoard();
 }
-
-
-
-
