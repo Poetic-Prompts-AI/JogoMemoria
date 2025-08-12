@@ -1,20 +1,45 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Jogo da Memória</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="container">
-    <h1>🧠 Jogo da Memória</h1>
+  <!-- Tela de Login (bloqueia o jogo até validar) -->
+  <div id="loginOverlay" class="overlay">
+    <div class="login-card">
+      <h1 class="brand">Encontro de Dorameiros</h1>
+      <p class="subtitle">Preencha para começar</p>
+
+      <form id="loginForm" novalidate>
+        <label for="nome">Nome completo</label>
+        <input type="text" id="nome" name="nome" placeholder="Seu nome" required />
+
+        <label for="telefone">Telefone</label>
+        <input type="tel" id="telefone" name="telefone" placeholder="(DDD) 99999-9999" required />
+
+        <small class="hint">Usaremos apenas para a dinâmica do evento.</small>
+
+        <button type="submit" id="btnEntrar" class="btn-primary">Entrar e jogar</button>
+        <p id="loginErro" class="erro hidden"></p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Container do jogo (fica visível só após login) -->
+  <div class="container hidden" id="gameContainer">
+    <h1 class="game-title">🧠 Jogo da Memória</h1>
     <div class="status-bar">
+      <div id="player">Jogador: —</div>
       <div id="score">Pontos: 0</div>
       <div id="timer">Tempo: 30s</div>
     </div>
     <div id="gameBoard" class="board"></div>
     <div id="winMessage" class="hidden"></div>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
