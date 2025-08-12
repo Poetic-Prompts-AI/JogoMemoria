@@ -4,14 +4,14 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Jogo da Memória</title>
-  <link rel="stylesheet" href="style.css" />
+  <!-- cache busting: altere o valor de v= quando fizer ajustes -->
+  <link rel="stylesheet" href="style.css?v=totem3" />
 </head>
 <body>
   <!-- LOGIN (sempre inicia aqui) -->
   <div id="loginOverlay" class="overlay">
     <div class="panel login-card">
-      <!-- LOGO (botão de FULLSCREEN) -->
-      <img id="logoBtn" class="logo-btn" src="LOGOLAB.png" alt="LAB Experience" />
+      <img id="logoBtn" class="logo-btn" src="Artboard 1.png" alt="LAB Experience" />
       <h1 class="brand"></h1>
       <p class="subtitle">Preencha para começar</p>
 
@@ -21,13 +21,8 @@
 
         <label for="telefone">Telefone (só números)</label>
         <input
-          type="tel"
-          id="telefone"
-          name="telefone"
-          placeholder="Ex.: 11999998888"
-          inputmode="numeric"
-          pattern="\d{10,11}"
-          required
+          type="tel" id="telefone" name="telefone"
+          placeholder="Ex.: 11999998888" inputmode="numeric" pattern="\d{10,11}" required
         />
         <small class="hint">Aceita 10 ou 11 dígitos (ex.: 11999998888).</small>
 
@@ -61,12 +56,9 @@
     </div>
   </div>
 
-  <script src="script.js"></script>
+  <script src="script.js?v=totem3"></script>
 </body>
 </html>
-
-
-
 
 
 
