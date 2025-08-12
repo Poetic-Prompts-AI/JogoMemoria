@@ -1,86 +1,45 @@
-/* ===== Fonts locais (as que você enviou) ===== */
-@font-face {
-  font-family: 'Sweet Snow';
-  src: url('Sweet Snow.otf') format('opentype');
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Anja Eliane';
-  src: url('Anja Eliane.ttf') format('truetype');
-  font-display: swap;
-}
-@font-face {
-  font-family: 'Anja Eliane Accent';
-  src: url('Anja Eliane accent002.ttf') format('truetype');
-  font-display: swap;
-}
-
-/* Fallback Google (mantido se precisar) */
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap');
 
 * { box-sizing: border-box; }
 
-:root{
-  --card-size: 100px;
-  --gap: 15px;
-  --accent: #ff6f61;
-  --text: #333;
-  --panel-bg: rgba(255,255,255,0.92);
-}
-
-/* ===== Fundo com sua imagem ===== */
-html, body {
-  height: 100%;
-}
 body {
   margin: 0;
   padding: 0;
-  font-family: 'Anja Eliane', 'Fredoka', system-ui, -apple-system, Arial, sans-serif;
-  color: var(--text);
-
-  /* imagem de fundo anexada */
-  background: #bfe1f5 url('fundo.png') center top / cover no-repeat fixed;
-  /* fallback suave se a imagem demorar */
-  background-color: #bfe1f5;
+  background: linear-gradient(to right, #ffecd2, #fcb69f);
+  font-family: 'Fredoka', sans-serif;
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 100vh;
 }
 
 /* ===== Overlay de login ===== */
 .overlay{
   position: fixed;
   inset: 0;
-  backdrop-filter: blur(2px);
+  background: rgba(0,0,0,0.3);
   display: grid;
   place-items: center;
   z-index: 20;
 }
-
 .login-card{
-  width: min(92vw, 460px);
-  background: var(--panel-bg);
+  width: min(92vw, 420px);
+  background: rgba(255,255,255,0.95);
   border-radius: 20px;
   padding: 24px;
   box-shadow: 0 12px 40px rgba(0,0,0,0.18);
   text-align: center;
 }
-
 .brand{
-  font-family: 'Sweet Snow', 'Anja Eliane Accent', 'Anja Eliane', cursive;
-  font-size: clamp(28px, 4.2vw, 44px);
-  color: #e0394d;
-  margin: 0 0 4px;
-  letter-spacing: .5px;
-  text-shadow: 0 2px 0 #fff, 0 3px 6px rgba(0,0,0,.15);
+  font-size: 1.8rem;
+  margin: 0 0 8px;
+  color: #ff6f61;
 }
 .subtitle{
   margin: 0 0 18px;
   color: #555;
   font-weight: 600;
-  font-family: 'Anja Eliane', 'Fredoka', sans-serif;
 }
-
 form label{
   display: block;
   text-align: left;
@@ -96,14 +55,12 @@ form input{
   border-radius: 12px;
   font-size: 16px;
   outline: none;
-  transition: border-color .2s, box-shadow .2s, background .2s;
-  background: #fff;
+  transition: border-color .2s, box-shadow .2s;
 }
 form input:focus{
   border-color: #93c5fd;
-  box-shadow: 0 0 0 4px rgba(147,197,253,.25);
+  box-shadow: 0 0 0 3px rgba(147,197,253,.25);
 }
-
 .hint{
   display: block;
   text-align: left;
@@ -111,7 +68,6 @@ form input:focus{
   font-size: 12px;
   color: #666;
 }
-
 .btn-primary{
   width: 100%;
   padding: 12px 16px;
@@ -120,13 +76,11 @@ form input:focus{
   background: linear-gradient(180deg, #ff7a70, #ff5243);
   color: #fff;
   font-weight: 700;
-  letter-spacing: .2px;
   cursor: pointer;
   transition: transform .06s ease, filter .2s ease;
 }
 .btn-primary:hover{ filter: brightness(1.05); }
 .btn-primary:active{ transform: translateY(1px); }
-
 .erro{
   margin-top: 10px;
   color: #b00020;
@@ -135,49 +89,40 @@ form input:focus{
 
 /* ===== Container do jogo ===== */
 .container {
-  width: min(96vw, 520px);
   text-align: center;
   padding: 20px;
-  background-color: var(--panel-bg);
+  background-color: rgba(255, 255, 255, 0.9);
   border-radius: 20px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
 }
-
-.game-title {
-  font-family: 'Sweet Snow', 'Anja Eliane Accent', 'Anja Eliane', cursive;
-  font-size: 2.4rem;
-  margin: 0 0 8px;
-  color: var(--accent);
+h1.game-title {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  color: #ff6f61;
 }
-
 .status-bar {
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-  align-items: center;
-  gap: 8px 14px;
+  display: flex;
   justify-content: space-between;
-  margin-bottom: 16px;
-  font-size: 1.05rem;
-  font-weight: 700;
+  margin-bottom: 20px;
+  font-size: 1.2rem;
+  font-weight: bold;
   color: #444;
+  max-width: 420px;
+  margin-left: auto;
+  margin-right: auto;
 }
-
-#player { justify-self: start; }
-#score, #timer { justify-self: end; }
-
 .board {
   display: grid;
-  grid-template-columns: repeat(4, var(--card-size));
-  grid-template-rows: repeat(4, var(--card-size));
-  gap: var(--gap);
+  grid-template-columns: repeat(4, 100px);
+  grid-template-rows: repeat(4, 100px);
+  gap: 15px;
   justify-content: center;
   align-items: center;
   margin: 0 auto;
 }
-
 .card {
-  width: var(--card-size);
-  height: var(--card-size);
+  width: 100px;
+  height: 100px;
   background-color: #ffdab9;
   border-radius: 15px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -186,41 +131,28 @@ form input:focus{
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
 }
-
 .card:hover {
   transform: scale(1.05);
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
 }
-
 .card img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   border-radius: 15px;
 }
-
-.hidden { display: none !important; }
-
+.hidden { display: none; }
 #winMessage {
-  margin-top: 18px;
-  font-size: 1.2rem;
+  margin-top: 20px;
+  font-size: 1.5rem;
   color: #444;
-  font-weight: 800;
-  animation: fadeIn 0.8s ease-in-out both;
+  font-weight: bold;
+  animation: fadeIn 1s ease-in-out;
 }
-
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(8px); }
-  to   { opacity: 1; transform: translateY(0); }
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* ===== Responsivo ===== */
-@media (max-width: 420px){
-  :root{
-    --card-size: 78px;
-    --gap: 12px;
-  }
-}
 
