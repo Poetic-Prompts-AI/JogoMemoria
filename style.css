@@ -1,255 +1,121 @@
-/* (opcional) fonte fallback */
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap');
 
 * { box-sizing: border-box; }
 html, body { height: 100%; }
 
-/* =======================================================
-   🔧 VARIÁVEIS — CONTROLE FINO PARA TOTEM 1080×1920
-   -------------------------------------------------------
-   • TABULEIRO: agora separado em largura e altura das cartas
-     -> Aumente SÓ a altura mudando --card-h
-   • PAINÉIS (login/jogo/ranking): largura e altura independentes
-   ======================================================= */
 :root{
   /* CORES */
-  --panel-bg: #f2d8c9;     /* painel login/jogo/ranking */
+  --panel-bg: #f2d8c9;
   --text: #2b2b2b;
   --accent: #ff6f61;
-  --card-bg: #ce2e3a;      /* fundo da carta */
-  --card-border: #404a91;  /* contorno da carta */
+  --card-bg: #ce2e3a;
+  --card-border: #404a91;
 
-  /* 🔧 TABULEIRO (independente do painel) */
-  --card-w: 100px;          /* LARGURA da carta (colunas) */
-  --card-h: 120px;          /* ALTURA da carta (linhas) -> aumente AQUI p/ tabuleiro mais alto */
-  --gap: 18px;              /* espaçamento entre cartas */
-  --card-border-width: 4px; /* espessura do contorno */
+  /* TABULEIRO (controle fino: largura x altura) */
+  --card-w: 120px;          /* ← largura da carta (colunas) */
+  --card-h: 140px;          /* ← ALTURA da carta (linhas). AUMENTE AQUI. */
+  --gap: 18px;
+  --card-border-width: 4px;
 
-  /* 🔧 PAINEL DE LOGIN (LxA) */
-  --login-w: 520px;
-  --login-h: 620px;
+  /* PAINÉIS */
+  --login-w: 520px;  --login-h: 620px;
+  --game-w: 720px;   --game-h: 1000px; /* ↑ se o tabuleiro crescer muito */
+  --rank-w: 560px;   --rank-h: 700px;
 
-  /* 🔧 PAINEL DO JOGO (LxA) */
-  --game-w: 620px;
-  --game-h: 900px;         /* ↑ um pouco, p/ acomodar tabuleiro mais alto */
+  /* LOGO login */
+  --logo-max: 180px;
+}
 
-  /* 🔧 PAINEL DO RANKING (LxA) */
-  --rank-w: 560px;
-  --rank-h: 700px;
+/* preset robusto p/ totem em modo retrato
+   (não depende de min-width/min-height em CSS px) */
+@media (orientation: portrait){
+  :root{
+    /* aproveita a altura do totem 1080x1920 (DPR alto vira ~360x640 CSS px) */
+    --game-w: 900px;
+    --game-h: 1600px;
 
-  /* (opcional) LOGO no login */
-  --logo-max: 100px;        /* ajuste livre da logo */
+    /* cartas mais altas SEM mexer na largura */
+    --card-w: 200px;
+    --card-h: 240px; /* ↑ só a altura */
+    --gap: 24px;
+  }
 }
 
 body {
   margin: 0;
   font-family: 'Fredoka', system-ui, -apple-system, Arial, sans-serif;
-
-  /* Fundo em alta para TODAS as telas */
-  background-image: url('fundo.png');
-  background-position: center top;
-  background-repeat: no-repeat;
-  background-size: cover;
-
-  /* Centraliza o painel visível (login/jogo/ranking) */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
+  background: url('fundo.png') center top / cover no-repeat;
+  display: flex; align-items: center; justify-content: center; min-height: 100vh;
 }
 
-/* ===== Overlays (login e ranking), sem blur ===== */
+/* Overlays */
 .overlay{
-  position: fixed;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  background: rgba(0,0,0,0.12);
-  z-index: 20;
+  position: fixed; inset: 0; display: grid; place-items: center;
+  background: rgba(0,0,0,0.12); z-index: 20;
 }
 .hidden{ display: none !important; }
 
-/* ===== Painéis (estilo base) — LxA definidas por painel ===== */
+/* Painéis (largura/altura por painel) */
 .panel{
-  background: var(--panel-bg);
-  color: var(--text);
-  border-radius: 20px;
-  padding: 20px;
+  background: var(--panel-bg); color: var(--text);
+  border-radius: 20px; padding: 20px;
   box-shadow: 0 8px 24px rgba(0,0,0,0.16);
 }
+.login-card{ width: min(96vw, var(--login-w)); max-height: min(96vh, var(--login-h)); overflow: auto; text-align: center; }
+.container { width: min(96vw, var(--game-w));  max-height: min(96vh, var(--game-h));  overflow: auto; text-align:center; }
+.ranking-card{width: min(96vw, var(--rank-w)); max-height: min(96vh, var(--rank-h)); overflow:auto; text-align:center;}
 
-/* ===== LOGIN ===== */
-.login-card{
-  width: min(96vw, var(--login-w));
-  max-height: min(96vh, var(--login-h));
-  overflow: auto;
-  text-align: center;
-}
-.logo-btn{
-  width: min(70vw, var(--logo-max));
-  display: block;
-  margin: 0 auto 10px;
-  cursor: pointer;
-  transition: transform .15s ease, filter .2s;
-  filter: drop-shadow(0 4px 12px rgba(0,0,0,.15));
-}
-.logo-btn:hover{ transform: scale(1.03); }
-.brand{
-  font-size: clamp(26px, 5vw, 42px);
-  margin: 0 0 6px;
-  color: #e0394d;
-  text-shadow: 0 1px 0 #fff, 0 4px 14px rgba(0,0,0,.12);
-}
+/* Login */
+.logo-btn{ width: min(70vw, var(--logo-max)); display:block; margin:0 auto 10px; cursor:pointer; }
+.brand{ font-size: clamp(26px, 5vw, 42px); margin: 0 0 6px; color:#e0394d; }
 .subtitle{ margin: 0 0 18px; color:#444; font-weight:600; }
-
-form label{
-  display:block; text-align:left; margin:10px 4px 6px;
-  font-size:14px; color:#3a3a3a; font-weight:600;
-}
-form input{
-  width:100%; padding:12px 14px; font-size:16px;
-  border:2px solid #e7c9b7; border-radius:12px; outline:none;
-  transition: border-color .2s, box-shadow .2s;
-  background:#fff;
-}
-form input:focus{
-  border-color:#93c5fd;
-  box-shadow:0 0 0 4px rgba(147,197,253,.25);
-}
+form label{ display:block; text-align:left; margin:10px 4px 6px; font-size:14px; color:#3a3a3a; font-weight:600; }
+form input{ width:100%; padding:12px 14px; font-size:16px; border:2px solid #e7c9b7; border-radius:12px; background:#fff; }
 .hint{ display:block; text-align:left; margin:8px 4px 14px; font-size:12px; color:#5a5a5a; }
-.btn-primary{
-  width:100%; padding:12px 16px; border:none; border-radius:12px;
-  background: linear-gradient(180deg, #ff7a70, #ff5243);
-  color:#fff; font-weight:700; cursor:pointer;
-  transition: transform .06s ease, filter .2s ease;
-}
-.btn-primary:hover{ filter: brightness(1.05); }
-.btn-primary:active{ transform: translateY(1px); }
+.btn-primary{ width:100%; padding:12px 16px; border:none; border-radius:12px; background: linear-gradient(180deg, #ff7a70, #ff5243); color:#fff; font-weight:700; cursor:pointer; }
 .erro{ margin-top:10px; color:#b00020; font-weight:700; }
 
-/* ===== JOGO ===== */
-.container{
-  width: min(96vw, var(--game-w));
-  max-height: min(96vh, var(--game-h));
-  overflow: auto;
-  text-align: center;
-}
-.game-title {
-  font-size: 2.2rem;
-  margin: 0 0 10px;
-  color: var(--accent);
-}
-.status-bar {
-  display: grid;
-  grid-template-columns: 1fr auto auto;
-  gap: 8px 14px;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-  font-size: 1.05rem;
-  font-weight: 700;
-}
-#player { justify-self: start; }
-#score, #timer { justify-self: end; }
+/* Jogo */
+.game-title { font-size: 2.2rem; margin: 0 0 10px; color: var(--accent); }
+.status-bar { display: grid; grid-template-columns: 1fr auto auto; gap: 8px 14px; align-items: center; margin-bottom: 16px; font-weight:700; }
+#player { justify-self: start; } #score, #timer { justify-self: end; }
 
-/* ===== TABULEIRO (4x4) — AGORA ALTURA INDEPENDENTE =====
-   LARGURA do tabuleiro ≈ 4*--card-w + 3*--gap
-   ALTURA  do tabuleiro ≈ 4*--card-h + 3*--gap
-   -> Aumente SOMENTE a altura ajustando --card-h
-*/
+/* TABULEIRO 4x4 — altura independente */
 .board {
   display: grid;
   grid-template-columns: repeat(4, var(--card-w));
   grid-template-rows:    repeat(4, var(--card-h));
   gap: var(--gap);
-  margin: 0 auto;
-  justify-content: center;
-  align-items: center;
+  margin: 0 auto; justify-content: center; align-items: center;
 }
 
-/* CARTAS */
+/* cartas */
 .card {
-  width: var(--card-w);
-  height: var(--card-h);
+  width: var(--card-w); height: var(--card-h);
   background-color: var(--card-bg);
   border: var(--card-border-width) solid var(--card-border);
-  border-radius: 15px;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.12);
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s, filter .2s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
+  border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.12);
+  cursor: pointer; transition: transform .2s, box-shadow .2s;
+  display:flex; align-items:center; justify-content:center; overflow:hidden;
 }
 .card:hover { transform: scale(1.05); box-shadow: 0 6px 10px rgba(0,0,0,0.22); }
-.card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  /* raio menor que a borda externa pra aparecer o contorno */
-  border-radius: 12px;
-}
+.card img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
 
 #winMessage { margin-top: 18px; font-size: 1.2rem; font-weight: 800; }
 
-/* ===== RANKING ===== */
-.ranking-card{
-  width: min(96vw, var(--rank-w));
-  max-height: min(96vh, var(--rank-h));
-  overflow: auto;
-  text-align: center;
-}
+/* Ranking */
 .ranking-title{ margin: 0 0 8px; color:#1f2937; }
 .last-result{ margin: 2px 0 12px; color:#374151; font-weight:600; }
-.ranking-list{
-  text-align: left;
-  background: #fff;
-  border: 1px solid #d7bfae;
-  border-radius: 12px;
-  padding: 12px 16px;
-  max-height: 260px;
-  overflow: auto;
-  margin: 0 0 14px;
-}
-.ranking-actions{ display:flex; justify-content:center; gap:10px; }
-.btn-secondary{
-  padding: 10px 16px;
-  border: none; border-radius: 12px;
-  background: #111827; color:#fff; font-weight:700;
-  cursor: pointer;
-}
-.btn-secondary:hover{ filter: brightness(1.05); }
+.ranking-list{ text-align:left; background:#fff; border:1px solid #d7bfae; border-radius:12px; padding:12px 16px; max-height:260px; overflow:auto; margin:0 0 14px; }
+.btn-secondary{ padding:10px 16px; border:none; border-radius:12px; background:#111827; color:#fff; font-weight:700; cursor:pointer; }
 
-/* ===== PRESET PARA TOTEM 1080×1920 (retrato) =====
-   Aqui eu deixo o painel do jogo mais alto e
-   as cartas retangulares (mais ALTAS).
-   Ajuste livre os números abaixo conforme seu gosto.
-*/
-@media (orientation: portrait) and (min-width: 900px) and (min-height: 1700px){
-  :root{
-    --game-w: 900px;   /* painel mais largo */
-    --game-h: 1600px;  /* painel bem alto */
-    --card-w: 200px;   /* largura da carta mantida confortável */
-    --card-h: 240px;   /* ↑ altura da carta → tabuleiro mais alto */
-    --gap: 24px;       /* respiro */
-    --logo-max: 220px; /* logo do login um pouco maior se quiser */
-  }
-}
-
-/* ===== Responsivo geral (smartphone) ===== */
+/* Mobile (se precisar) */
 @media (max-width: 420px){
   :root{
-    --card-w: 96px;
-    --card-h: 96px;
-    --gap: 12px;
-
-    --login-w: 420px;
-    --game-w: 520px;
-    --rank-w: 460px;
+    --card-w: 96px; --card-h: 96px; --gap: 12px;
+    --login-w: 420px; --game-w: 520px; --rank-w: 460px;
   }
 }
-
 
 
 
