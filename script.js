@@ -12,6 +12,22 @@ const lastResult = document.getElementById('lastResult');
 const btnVoltar = document.getElementById('btnVoltar');
 
 const telInput = document.getElementById('telefone');
+const nomeInput = document.getElementById('nome');
+
+/* ——— SEM AUTLOGIN: sempre abre no login ——— */
+
+/* Preenche automaticamente (sem logar) se houver dados salvos */
+(function prefillSaved() {
+  try {
+    const raw = localStorage.getItem('jogador_memoria');
+    if (!raw) return;
+    const dados = JSON.parse(raw);
+    if (dados?.nome) nomeInput.value = dados.nome;
+    if (dados?.telefone) telInput.value = String(dados.telefone).replace(/\D/g,'');
+  } catch (_) {}
+})();
+
+/* Apenas números no telefone */
 telInput.addEventListener('input', function () {
   this.value = this.value.replace(/\D/g, '');
 });
@@ -21,7 +37,7 @@ function validarNome(nome) {
 }
 function validarTelefone(telefone) {
   const digits = (telefone || '').replace(/\D/g, '');
-  return digits.length >= 10 && digits.length <= 11;
+  return digits.length >= 10 && digits.length <= 11; // BR
 }
 
 /* Fullscreen no clique do logo */
@@ -38,24 +54,12 @@ logoBtn.addEventListener('click', async () => {
   } catch (_) {}
 });
 
-/* Autologin se tiver salvo */
-(function autoLoginSeSalvo() {
-  try {
-    const raw = localStorage.getItem('jogador_memoria');
-    if (!raw) return;
-    const dados = JSON.parse(raw);
-    if (dados?.nome && dados?.telefone && validarTelefone(dados.telefone)) {
-      liberarJogo(dados.nome);
-    }
-  } catch (_) {}
-})();
-
-/* Submit login */
+/* Submit login (sempre necessário) */
 form.addEventListener('submit', (e) => {
   e.preventDefault();
   erro.classList.add('hidden');
 
-  const nome = document.getElementById('nome').value.trim();
+  const nome = nomeInput.value.trim();
   const telefone = telInput.value.trim();
 
   if (!validarNome(nome) || !validarTelefone(telefone)) {
@@ -64,6 +68,7 @@ form.addEventListener('submit', (e) => {
     return;
   }
 
+  // salva apenas para facilitar próximos preenchimentos
   localStorage.setItem('jogador_memoria', JSON.stringify({ nome, telefone, ts: Date.now() }));
   liberarJogo(nome);
 });
@@ -106,6 +111,8 @@ function showRanking(entryText) {
   overlay.classList.add('hidden');
   rankingOverlay.classList.remove('hidden');
 }
+
+/* Voltar: mostra login novamente (sem limpar os campos já salvos) */
 btnVoltar.addEventListener('click', () => {
   overlay.classList.remove('hidden');
   rankingOverlay.classList.add('hidden');
@@ -115,8 +122,8 @@ btnVoltar.addEventListener('click', () => {
 /* =============== JOGO DA MEMÓRIA =============== */
 function initGame(nomeJogador) {
   const cardsArray = [
-    '1.png','2.png','3.png','4.png',
-    '5.png','6.png','7.png','9.png'
+    '01.jpg','02.jpg','03.jpg','04.jpg',
+    '05.jpg','06.jpg','07.jpg','08.jpg'
   ];
   let cards = [...cardsArray, ...cardsArray].sort(() => 0.5 - Math.random());
 
@@ -218,8 +225,6 @@ function initGame(nomeJogador) {
 
   createBoard();
 }
-
-
 
 
 
