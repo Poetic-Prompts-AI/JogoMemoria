@@ -132,9 +132,93 @@ function initGame(nomeJogador) {
   let gameEnded = false;
   const maxTime = 30;
 
+  // Reset visual
   gameBoard.innerHTML = '';
   winMessage.classList.add('hidden');
-  score
+  scoreDisplay.textContent = 'Pontos: 0';
+  timerDisplay.textContent = `Tempo: ${maxTime}s`;
+
+  const timerInterval = setInterval(() => {
+    const elapsed = Math.floor((Date.now() - startTime) / 1000);
+    const remaining = maxTime - elapsed;
+    timerDisplay.textContent = `Tempo: ${remaining}s`;
+    if (remaining <= 0 && !gameEnded) endGame(false);
+  }, 1000);
+
+  function createBoard() {
+    cards.forEach((symbol, index) => {
+      const card = document.createElement('div');
+      card.classList.add('card');
+      card.dataset.symbol = symbol;
+      card.dataset.index = index;
+      card.addEventListener('click', flipCard);
+      gameBoard.appendChild(card);
+    });
+  }
+
+  function flipCard() {
+    const card = this;
+    if (gameEnded ||
+        revealedCards.length >= 2 ||
+        card.classList.contains('revealed') ||
+        card.classList.contains('matched')) return;
+
+    const img = document.createElement('img');
+    img.src = card.dataset.symbol;
+    img.alt = 'carta';
+    card.innerHTML = '';
+    card.appendChild(img);
+    card.classList.add('revealed');
+    revealedCards.push(card);
+
+    if (revealedCards.length === 2) checkMatch();
+  }
+
+  function checkMatch() {
+    const [first, second] = revealedCards;
+
+    if (first.dataset.symbol === second.dataset.symbol) {
+      first.classList.add('matched');
+      second.classList.add('matched');
+      matched.push(first.dataset.symbol);
+      score += 10;
+    } else {
+      score = Math.max(0, score - 2);
+    }
+
+    scoreDisplay.textContent = `Pontos: ${score}`;
+
+    setTimeout(() => {
+      revealedCards.forEach(card => {
+        if (!card.classList.contains('matched')) {
+          card.innerHTML = '';
+          card.classList.remove('revealed');
+        }
+      });
+      revealedCards = [];
+      checkWin();
+    }, 800);
+  }
+
+  function checkWin() {
+    if (matched.length === cardsArray.length) endGame(true);
+  }
+
+  function endGame(victory) {
+    gameEnded = true;
+    clearInterval(timerInterval);
+    const elapsed = Math.floor((Date.now() - startTime) / 1000);
+    const msg = victory
+      ? `🎉 Parabéns! Você venceu com ${score} pontos em ${elapsed}s!`
+      : `⏳ Tempo esgotado! Você fez ${score} pontos.`;
+
+    addToRanking({ nome: nomeJogador, score, elapsed, ts: Date.now() });
+    showRanking(msg);
+  }
+
+  createBoard();
+}
+
 
 
 
