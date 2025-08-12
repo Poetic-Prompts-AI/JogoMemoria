@@ -40,7 +40,7 @@ html, body { height: 100%; }
   --rank-h: 700px;           /* altura máx. ranking */
 
   /* (opcional) LOGO no login */
-  --logo-max: 200px;
+  --logo-max: 150px;
 }
 
 body {
@@ -237,6 +237,7 @@ form input:focus{
     --rank-w: 460px;
   }
 }
+
 
 
 
