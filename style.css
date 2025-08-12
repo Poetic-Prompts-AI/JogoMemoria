@@ -22,8 +22,8 @@ html, body { height: 100%; }
   --card-border: #404a91;   /* contorno da carta */
 
   /* TAMANHOS (maiores que antes) */
-  --panel-max: 680px;       /* antes ~520px */
-  --card-size: 120px;       /* antes ~100px */
+  --panel-max: 880px;       /* antes ~520px */
+  --card-size: 220px;       /* antes ~100px */
   --gap: 18px;              /* antes ~15px */
   --card-border-width: 4px; /* antes 4px fixo */
 }
@@ -200,3 +200,4 @@ form input:focus{
     --gap: 12px;
   }
 }
+
