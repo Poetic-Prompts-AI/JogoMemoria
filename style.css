@@ -29,7 +29,7 @@ html, body { height: 100%; }
 
   /* 🔧 PAINEL DE LOGIN (LxA) */
   --login-w: 320px;          /* largura máx. login */
-  --login-h: 520px;          /* altura máx. login */
+  --login-h: 320px;          /* altura máx. login */
 
   /* 🔧 PAINEL DO JOGO (LxA) */
   --game-w: 720px;           /* largura máx. jogo */
@@ -237,5 +237,6 @@ form input:focus{
     --rank-w: 460px;
   }
 }
+
 
 
