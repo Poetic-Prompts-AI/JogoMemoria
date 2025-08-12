@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- Tela de Login -->
+  <!-- Overlay de Login -->
   <div id="loginOverlay" class="overlay">
     <div class="login-card">
       <h1 class="brand">Encontro de Dorameiros</h1>
@@ -17,10 +17,13 @@
         <label for="nome">Nome completo</label>
         <input type="text" id="nome" name="nome" placeholder="Seu nome" required />
 
-        <label for="telefone">Telefone</label>
-        <input type="tel" id="telefone" name="telefone" placeholder="Ex.: 11937586208" pattern="\d{10,11}" inputmode="numeric" required />
-
-        <small class="hint">Digite apenas números (10 ou 11 dígitos).</small>
+        <label for="telefone">Telefone (só números)</label>
+        <input type="tel" id="telefone" name="telefone"
+               placeholder="Ex.: 11999998888"
+               inputmode="numeric"
+               pattern="\d{10,11}"
+               required />
+        <small class="hint">Aceita 10 ou 11 dígitos (ex.: 11999998888).</small>
 
         <button type="submit" id="btnEntrar" class="btn-primary">Entrar e jogar</button>
         <p id="loginErro" class="erro hidden"></p>
@@ -43,3 +46,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+
