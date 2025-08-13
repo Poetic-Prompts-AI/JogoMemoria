@@ -132,7 +132,7 @@ function initGame(nomeJogador) {
   let score = 0;
   let startTime = Date.now();
   let gameEnded = false;
-  const maxTime = 30;
+  const maxTime = 40;
 
   gameBoard.innerHTML = '';
   winMessage.classList.add('hidden');
@@ -219,6 +219,7 @@ function initGame(nomeJogador) {
 
   createBoard();
 }
+
 
 
 
