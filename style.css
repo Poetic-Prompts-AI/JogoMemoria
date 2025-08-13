@@ -44,7 +44,7 @@ html, body { height: 100%; }
 body {
   margin: 0;
   font-family: 'Fredoka', system-ui, -apple-system, Arial, sans-serif;
-  background: url('fundo.png') center top / cover no-repeat;
+  background: url('FUNDO2.png') center top / cover no-repeat;
   display: flex; align-items: center; justify-content: center; min-height: 100vh;
 }
 
@@ -116,6 +116,7 @@ form input{ width:100%; padding:12px 14px; font-size:16px; border:2px solid #e7c
     --login-w: 420px; --game-w: 520px; --rank-w: 460px;
   }
 }
+
 
 
 
