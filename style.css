@@ -14,7 +14,7 @@ html, body { height: 100%; }
   /* TABULEIRO (controle fino: largura x altura) */
   --card-w: 100px;          /* ← largura da carta (colunas) */
   --card-h: 120px;          /* ← ALTURA da carta (linhas). AUMENTE AQUI. */
-  --gap: 14px;
+  --gap: 10px;
   --card-border-width: 4px;
 
   /* PAINÉIS */
@@ -116,6 +116,7 @@ form input{ width:100%; padding:12px 14px; font-size:16px; border:2px solid #e7c
     --login-w: 420px; --game-w: 520px; --rank-w: 460px;
   }
 }
+
 
 
 
