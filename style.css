@@ -35,8 +35,8 @@ html, body { height: 100%; }
     --game-h: 1200px;
 
     /* cartas mais altas SEM mexer na largura */
-    --card-w: 100px;
-    --card-h: 120px; /* ↑ só a altura */
+    --card-w: 150px;
+    --card-h: 170px; /* ↑ só a altura */
     --gap: 24px;
   }
 }
@@ -116,6 +116,7 @@ form input{ width:100%; padding:12px 14px; font-size:16px; border:2px solid #e7c
     --login-w: 420px; --game-w: 520px; --rank-w: 460px;
   }
 }
+
 
 
 
