@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Jogo da Memória</title>
   <!-- cache busting: altere o valor de v= quando fizer ajustes -->
-  <link rel="stylesheet" href="style.css?v=totem4" />
+  <link rel="stylesheet" href="style.css?v=salvar1" />
 </head>
 <body>
   <!-- LOGIN (sempre inicia aqui) -->
@@ -25,6 +25,11 @@
           placeholder="Ex.: 11999998888" inputmode="numeric" pattern="\d{10,11}" required
         />
         <small class="hint">Aceita 10 ou 11 dígitos (ex.: 11999998888).</small>
+
+        <!-- NOVO: botão para salvar os dados sem iniciar o jogo -->
+        <button type="button" id="btnSalvar" class="btn-outline">Salvar dados</button>
+        <!-- feedback rápido após salvar -->
+        <p id="saveFeedback" class="info hidden">Dados salvos!</p>
 
         <button type="submit" id="btnEntrar" class="btn-primary">Entrar e jogar</button>
         <p id="loginErro" class="erro hidden"></p>
@@ -56,9 +61,10 @@
     </div>
   </div>
 
-  <script src="script.js?v=totem4"></script>
+  <script src="script.js?v=salvar1"></script>
 </body>
 </html>
+
 
 
 
