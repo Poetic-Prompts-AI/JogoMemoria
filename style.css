@@ -22,7 +22,7 @@ html, body { height: 100%; }
   /* CORES (as solicitadas) */
   --panel-bg: #f2d8c9; /* painel login/jogo/ranking */
   --text: #2b2b2b;
-  --accent: #ce2e3a;    /* << antes era #ff6f61 (laranja) */
+  --accent: #ce2e3a;    /* vermelho */
   --card-bg: #ce2e3a;   /* fundo das cartas */
   --card-border: #404a91; /* contorno das cartas */
 
@@ -56,7 +56,7 @@ html, body { height: 100%; }
 body {
   margin: 0;
   font-family: 'Fredoka', system-ui, -apple-system, Arial, sans-serif;
-  /* imagem de fundo (não alterada) */
+  /* imagem de fundo (mantida) */
   background: url('FUNDO2.png') center top / cover no-repeat;
   display: flex; align-items: center; justify-content: center; min-height: 100vh;
 }
@@ -81,10 +81,9 @@ body {
 /* Login */
 .logo-btn{ width: min(70vw, var(--logo-max)); display:block; margin:0 auto 10px; cursor:pointer; }
 .brand{
-  /* usa fonte da pasta */
   font-family: 'SweetSnow', 'AnjaEliane', 'Fredoka', system-ui, Arial, sans-serif;
   font-size: clamp(26px, 5vw, 42px);
-  margin: 0 0 6px; color:#e0394d; /* já é vermelho */
+  margin: 0 0 6px; color:#e0394d; /* vermelho */
 }
 .subtitle{ margin: 0 0 18px; color:#444; font-weight:600; }
 form label{ display:block; text-align:left; margin:10px 4px 6px; font-size:14px; color:#3a3a3a; font-weight:600; }
@@ -93,18 +92,35 @@ form input{
   border:2px solid #e7c9b7; border-radius:12px; background:#fff;
 }
 .hint{ display:block; text-align:left; margin:8px 4px 14px; font-size:12px; color:#5a5a5a; }
+
+/* NOVO: botão “Salvar dados” (contorno vermelho, fundo transparente) */
+.btn-outline{
+  width:100%;
+  padding:12px 16px;
+  border:2px solid var(--accent);
+  border-radius:12px;
+  background: transparent;
+  color: var(--accent);
+  font-weight:700;
+  cursor:pointer;
+  margin: 6px 0 8px;
+}
+
+/* Botão principal: vermelho (sem laranja) */
 .btn-primary{
   width:100%; padding:12px 16px; border:none; border-radius:12px;
-  background: linear-gradient(180deg, #ce2e3a, #ce2e3a); /* << antes #ff7a70 → #ff5243 */
+  background: linear-gradient(180deg, #ce2e3a, #ce2e3a);
   color:#fff; font-weight:700; cursor:pointer;
 }
 .erro{ margin-top:10px; color:#b00020; font-weight:700; }
 
+/* Mensagem de info após salvar */
+.info{ margin: 4px 0 10px; color: var(--card-border); font-weight:700; }
+
 /* Jogo */
 .game-title{
-  /* usa fonte da pasta */
   font-family: 'AnjaEliane', 'SweetSnow', 'Fredoka', system-ui, Arial, sans-serif;
-  font-size: 2.2rem; margin: 0 0 10px; color: var(--accent); /* agora vermelho */
+  font-size: 2.2rem; margin: 0 0 10px; color: var(--accent);
 }
 .status-bar { display: grid; grid-template-columns: 1fr auto auto; gap: 8px 14px; align-items: center; margin-bottom: 16px; font-weight:700; }
 #player { justify-self: start; } #score, #timer { justify-self: end; }
@@ -118,7 +134,7 @@ form input{
   margin: 0 auto; justify-content: center; align-items: center;
 }
 
-/* Cartas (cores pedidas) */
+/* Cartas */
 .card{
   width: var(--card-w); height: var(--card-h);
   background-color: var(--card-bg);                 /* #ce2e3a */
@@ -149,6 +165,7 @@ form input{
     --login-w: 420px; --game-w: 520px; --rank-w: 460px;
   }
 }
+
 
 
 
