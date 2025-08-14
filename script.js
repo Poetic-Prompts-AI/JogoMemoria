@@ -14,6 +14,10 @@ const btnVoltar = document.getElementById('btnVoltar');
 const telInput = document.getElementById('telefone');
 const nomeInput = document.getElementById('nome');
 
+/* NOVO: botão Salvar e feedback */
+const btnSalvar = document.getElementById('btnSalvar');
+const saveFeedback = document.getElementById('saveFeedback');
+
 /* Pré-preenchimento sem autologin */
 (function prefillSaved() {
   try {
@@ -51,6 +55,24 @@ logoBtn.addEventListener('click', async () => {
     }
   } catch (_) {}
 });
+
+/* NOVO: salvar dados (sem iniciar o jogo) */
+function salvarDadosDigitados() {
+  const nome = nomeInput.value.trim();
+  const telefone = telInput.value.replace(/\D/g, '');
+
+  try {
+    localStorage.setItem('jogador_memoria', JSON.stringify({ nome, telefone, ts: Date.now() }));
+    if (saveFeedback) {
+      saveFeedback.textContent = 'Dados salvos!';
+      saveFeedback.classList.remove('hidden');
+      setTimeout(() => saveFeedback.classList.add('hidden'), 2000);
+    }
+  } catch (e) {
+    console.warn('Falha ao salvar dados:', e);
+  }
+}
+btnSalvar?.addEventListener('click', salvarDadosDigitados);
 
 /* Submit do login */
 form.addEventListener('submit', (e) => {
@@ -219,7 +241,5 @@ function initGame(nomeJogador) {
 
   createBoard();
 }
-
-
 
 
