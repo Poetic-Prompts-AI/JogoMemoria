@@ -4,15 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Jogo da Memória</title>
-  <link rel="stylesheet" href="style.css?v=export1" />
+  <!-- cache busting: altere o valor de v= quando fizer ajustes -->
+  <link rel="stylesheet" href="style.css?v=rank-save1" />
 </head>
 <body>
   <!-- LOGIN (sempre inicia aqui) -->
   <div id="loginOverlay" class="overlay">
     <div class="panel login-card">
-      <!-- LOGO: também serve de botão para entrar/sair do fullscreen -->
-      <img id="logoBtn" class="logo-btn" src="Artboard 1.png" alt="LAB Experience" />
-      <h1 class="brand">Encontro de Dorameiros</h1>
+      <img id="logoBtn" class="logo-btn" src="LOGOLAB.png" alt="LAB Experience" />
+      <h1 class="brand"></h1>
       <p class="subtitle">Preencha para começar</p>
 
       <form id="loginForm" novalidate>
@@ -25,13 +25,6 @@
           placeholder="Ex.: 11999998888" inputmode="numeric" pattern="\d{10,11}" required
         />
         <small class="hint">Aceita 10 ou 11 dígitos (ex.: 11999998888).</small>
-
-        <!-- NOVOS BOTÕES -->
-        <div class="row-actions">
-          <button type="button" id="btnSalvar" class="btn-outline">Salvar dados</button>
-          <button type="button" id="btnBaixarDados" class="btn-secondary">Baixar dados (.json)</button>
-        </div>
-        <p id="saveFeedback" class="info hidden">Dados salvos!</p>
 
         <button type="submit" id="btnEntrar" class="btn-primary">Entrar e jogar</button>
         <p id="loginErro" class="erro hidden"></p>
@@ -58,15 +51,16 @@
       <p id="lastResult" class="last-result"></p>
       <ol id="rankingList" class="ranking-list"></ol>
       <div class="ranking-actions">
+        <!-- NOVO: botão que salva (nome/telefone) e baixa JSON -->
+        <button id="btnSalvarBaixar" class="btn-save">Salvar & Baixar dados</button>
         <button id="btnVoltar" class="btn-secondary">Voltar para tela inicial</button>
       </div>
     </div>
   </div>
 
-  <script src="script.js?v=export1"></script>
+  <script src="script.js?v=rank-save1"></script>
 </body>
 </html>
-
 
 
 
