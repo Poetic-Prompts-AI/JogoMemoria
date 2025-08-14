@@ -11,12 +11,11 @@ const rankingList = document.getElementById('rankingList');
 const lastResult = document.getElementById('lastResult');
 const btnVoltar = document.getElementById('btnVoltar');
 
+/* NOVO: botão Salvar & Baixar na página de Ranking */
+const btnSalvarBaixar = document.getElementById('btnSalvarBaixar');
+
 const telInput = document.getElementById('telefone');
 const nomeInput = document.getElementById('nome');
-
-/* NOVO: botão Salvar e feedback */
-const btnSalvar = document.getElementById('btnSalvar');
-const saveFeedback = document.getElementById('saveFeedback');
 
 /* Pré-preenchimento sem autologin */
 (function prefillSaved() {
@@ -56,24 +55,6 @@ logoBtn.addEventListener('click', async () => {
   } catch (_) {}
 });
 
-/* NOVO: salvar dados (sem iniciar o jogo) */
-function salvarDadosDigitados() {
-  const nome = nomeInput.value.trim();
-  const telefone = telInput.value.replace(/\D/g, '');
-
-  try {
-    localStorage.setItem('jogador_memoria', JSON.stringify({ nome, telefone, ts: Date.now() }));
-    if (saveFeedback) {
-      saveFeedback.textContent = 'Dados salvos!';
-      saveFeedback.classList.remove('hidden');
-      setTimeout(() => saveFeedback.classList.add('hidden'), 2000);
-    }
-  } catch (e) {
-    console.warn('Falha ao salvar dados:', e);
-  }
-}
-btnSalvar?.addEventListener('click', salvarDadosDigitados);
-
 /* Submit do login */
 form.addEventListener('submit', (e) => {
   e.preventDefault();
@@ -100,7 +81,7 @@ function liberarJogo(nome) {
   initGame(nome);
 }
 
-/* RANKING (Top 3) */
+/* ==================== RANKING (Top 3) ==================== */
 function getRanking() {
   try { return JSON.parse(localStorage.getItem('memoria_ranking')) || []; }
   catch { return []; }
@@ -136,11 +117,48 @@ btnVoltar.addEventListener('click', () => {
   gameContainer.classList.add('hidden');
 });
 
-/* JOGO DA MEMÓRIA */
+/* ===== NOVO: SALVAR no localStorage E BAIXAR JSON no Ranking ===== */
+function salvarEBaixarDados() {
+  // 1) tenta pegar dos inputs (se ainda existirem no DOM)
+  let nome = '';
+  let telefone = '';
+  try {
+    const n = document.getElementById('nome');
+    const t = document.getElementById('telefone');
+    if (n && n.value.trim()) nome = n.value.trim();
+    if (t && t.value) telefone = t.value.replace(/\D/g,'');
+  } catch (_) {}
+
+  // 2) se não tiver, usa o que já está salvo
+  const salvo = JSON.parse(localStorage.getItem('jogador_memoria') || '{}');
+  if (!nome && salvo?.nome) nome = salvo.nome;
+  if (!telefone && salvo?.telefone) telefone = String(salvo.telefone).replace(/\D/g,'');
+
+  // 3) salva/atualiza no localStorage
+  const payload = { nome: nome || '', telefone: telefone || '', ts: Date.now() };
+  try { localStorage.setItem('jogador_memoria', JSON.stringify(payload)); } catch (_) {}
+
+  // 4) baixa como JSON
+  try {
+    const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'dados_jogador.json';
+    document.body.appendChild(a);
+    a.click();
+    URL.revokeObjectURL(a.href);
+    a.remove();
+  } catch (e) {
+    console.warn('Falha ao baixar JSON:', e);
+  }
+}
+btnSalvarBaixar?.addEventListener('click', salvarEBaixarDados);
+
+/* ==================== JOGO DA MEMÓRIA ==================== */
 function initGame(nomeJogador) {
   const cardsArray = [
-    '1.png','2.png','3.png','4.png',
-    '5.png','6.png','7.png','8.png'
+    '01.jpg','02.jpg','03.jpg','04.jpg',
+    '05.jpg','06.jpg','07.jpg','08.jpg'
   ];
   let cards = [...cardsArray, ...cardsArray].sort(() => 0.5 - Math.random());
 
@@ -154,7 +172,7 @@ function initGame(nomeJogador) {
   let score = 0;
   let startTime = Date.now();
   let gameEnded = false;
-  const maxTime = 40;
+  const maxTime = 30;
 
   gameBoard.innerHTML = '';
   winMessage.classList.add('hidden');
