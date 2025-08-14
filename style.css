@@ -1,40 +1,52 @@
+/* (fallback) */
 @import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap');
 
 * { box-sizing: border-box; }
 html, body { height: 100%; }
 
+/* ===================== FONTS DA PASTA ===================== */
+@font-face{
+  font-family: 'AnjaEliane';
+  src: url('Anja Eliane.ttf') format('truetype'),
+       url('Anja Eliane accent002.ttf') format('truetype');
+  font-display: swap;
+}
+@font-face{
+  font-family: 'SweetSnow';
+  src: url('Sweet Snow.otf') format('opentype');
+  font-display: swap;
+}
+/* ========================================================== */
+
 :root{
-  /* CORES */
-  --panel-bg: #f2d8c9;
+  /* CORES (as solicitadas) */
+  --panel-bg: #f2d8c9; /* painel login/jogo/ranking */
   --text: #2b2b2b;
   --accent: #ff6f61;
-  --card-bg: #ce2e3a;
-  --card-border: #404a91;
+  --card-bg: #ce2e3a;  /* fundo das cartas */
+  --card-border: #404a91; /* contorno das cartas */
 
   /* TABULEIRO (controle fino: largura x altura) */
-  --card-w: 80px;          /* ← largura da carta (colunas) */
-  --card-h: 100px;          /* ← ALTURA da carta (linhas). AUMENTE AQUI. */
+  --card-w: 80px;   /* largura da carta (colunas) */
+  --card-h: 100px;  /* altura da carta (linhas)  */
   --gap: 10px;
   --card-border-width: 4px;
 
   /* PAINÉIS */
   --login-w: 520px;  --login-h: 620px;
-  --game-w: 520px;   --game-h: 600px; /* ↑ se o tabuleiro crescer muito */
+  --game-w: 520px;   --game-h: 600px;
   --rank-w: 560px;   --rank-h: 700px;
 
-  /* LOGO login */
+  /* LOGO do login */
   --logo-max: 100px;
 }
 
-/* preset robusto p/ totem em modo retrato
-   (não depende de min-width/min-height em CSS px) */
+/* preset robusto p/ totem em retrato */
 @media (orientation: portrait){
   :root{
-    /* aproveita a altura do totem 1080x1920 (DPR alto vira ~360x640 CSS px) */
     --game-w: 700px;
     --game-h: 1300px;
 
-    /* cartas mais altas SEM mexer na largura */
     --card-w: 150px;
     --card-h: 170px; /* ↑ só a altura */
     --gap: 24px;
@@ -44,6 +56,7 @@ html, body { height: 100%; }
 body {
   margin: 0;
   font-family: 'Fredoka', system-ui, -apple-system, Arial, sans-serif;
+  /* imagem de fundo (não alterada) */
   background: url('FUNDO2.png') center top / cover no-repeat;
   display: flex; align-items: center; justify-content: center; min-height: 100vh;
 }
@@ -55,7 +68,7 @@ body {
 }
 .hidden{ display: none !important; }
 
-/* Painéis (largura/altura por painel) */
+/* Painéis */
 .panel{
   background: var(--panel-bg); color: var(--text);
   border-radius: 20px; padding: 20px;
@@ -67,21 +80,37 @@ body {
 
 /* Login */
 .logo-btn{ width: min(70vw, var(--logo-max)); display:block; margin:0 auto 10px; cursor:pointer; }
-.brand{ font-size: clamp(26px, 5vw, 42px); margin: 0 0 6px; color:#e0394d; }
+.brand{
+  /* usa fonte da pasta */
+  font-family: 'SweetSnow', 'AnjaEliane', 'Fredoka', system-ui, Arial, sans-serif;
+  font-size: clamp(26px, 5vw, 42px);
+  margin: 0 0 6px; color:#e0394d;
+}
 .subtitle{ margin: 0 0 18px; color:#444; font-weight:600; }
 form label{ display:block; text-align:left; margin:10px 4px 6px; font-size:14px; color:#3a3a3a; font-weight:600; }
-form input{ width:100%; padding:12px 14px; font-size:16px; border:2px solid #e7c9b7; border-radius:12px; background:#fff; }
+form input{
+  width:100%; padding:12px 14px; font-size:16px;
+  border:2px solid #e7c9b7; border-radius:12px; background:#fff;
+}
 .hint{ display:block; text-align:left; margin:8px 4px 14px; font-size:12px; color:#5a5a5a; }
-.btn-primary{ width:100%; padding:12px 16px; border:none; border-radius:12px; background: linear-gradient(180deg, #ff7a70, #ff5243); color:#fff; font-weight:700; cursor:pointer; }
+.btn-primary{
+  width:100%; padding:12px 16px; border:none; border-radius:12px;
+  background: linear-gradient(180deg, #ff7a70, #ff5243);
+  color:#fff; font-weight:700; cursor:pointer;
+}
 .erro{ margin-top:10px; color:#b00020; font-weight:700; }
 
 /* Jogo */
-.game-title { font-size: 2.2rem; margin: 0 0 10px; color: var(--accent); }
+.game-title{
+  /* usa fonte da pasta */
+  font-family: 'AnjaEliane', 'SweetSnow', 'Fredoka', system-ui, Arial, sans-serif;
+  font-size: 2.2rem; margin: 0 0 10px; color: var(--accent);
+}
 .status-bar { display: grid; grid-template-columns: 1fr auto auto; gap: 8px 14px; align-items: center; margin-bottom: 16px; font-weight:700; }
 #player { justify-self: start; } #score, #timer { justify-self: end; }
 
-/* TABULEIRO 4x4 — altura independente */
-.board {
+/* TABULEIRO 4x4 */
+.board{
   display: grid;
   grid-template-columns: repeat(4, var(--card-w));
   grid-template-rows:    repeat(4, var(--card-h));
@@ -89,34 +118,37 @@ form input{ width:100%; padding:12px 14px; font-size:16px; border:2px solid #e7c
   margin: 0 auto; justify-content: center; align-items: center;
 }
 
-/* cartas */
-.card {
+/* Cartas (cores pedidas) */
+.card{
   width: var(--card-w); height: var(--card-h);
-  background-color: var(--card-bg);
-  border: var(--card-border-width) solid var(--card-border);
-  border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.12);
+  background-color: var(--card-bg);                 /* #ce2e3a */
+  border: var(--card-border-width) solid var(--card-border); /* #404a91 */
+  border-radius: 15px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
   cursor: pointer; transition: transform .2s, box-shadow .2s;
   display:flex; align-items:center; justify-content:center; overflow:hidden;
 }
-.card:hover { transform: scale(1.05); box-shadow: 0 6px 10px rgba(0,0,0,0.22); }
-.card img { width: 100%; height: 100%; object-fit: cover; border-radius: 12px; }
+.card:hover{ transform: scale(1.05); box-shadow: 0 6px 10px rgba(0,0,0,0.22); }
+.card img{ width:100%; height:100%; object-fit:cover; border-radius:12px; }
 
-#winMessage { margin-top: 18px; font-size: 1.2rem; font-weight: 800; }
+#winMessage{ margin-top:18px; font-size:1.2rem; font-weight:800; }
 
 /* Ranking */
-.ranking-title{ margin: 0 0 8px; color:#1f2937; }
-.last-result{ margin: 2px 0 12px; color:#374151; font-weight:600; }
+.ranking-title{
+  font-family: 'AnjaEliane', 'SweetSnow', 'Fredoka', system-ui, Arial, sans-serif;
+  margin:0 0 8px; color:#1f2937;
+}
+.last-result{ margin:2px 0 12px; color:#374151; font-weight:600; }
 .ranking-list{ text-align:left; background:#fff; border:1px solid #d7bfae; border-radius:12px; padding:12px 16px; max-height:260px; overflow:auto; margin:0 0 14px; }
 .btn-secondary{ padding:10px 16px; border:none; border-radius:12px; background:#111827; color:#fff; font-weight:700; cursor:pointer; }
 
-/* Mobile (se precisar) */
+/* Mobile */
 @media (max-width: 420px){
   :root{
     --card-w: 96px; --card-h: 96px; --gap: 12px;
     --login-w: 420px; --game-w: 520px; --rank-w: 460px;
   }
 }
-
 
 
 
