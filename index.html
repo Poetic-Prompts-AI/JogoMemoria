@@ -4,15 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Jogo da Memória</title>
-  <!-- cache busting: altere o valor de v= quando fizer ajustes -->
-  <link rel="stylesheet" href="style.css?v=salvar1" />
+  <link rel="stylesheet" href="style.css?v=export1" />
 </head>
 <body>
   <!-- LOGIN (sempre inicia aqui) -->
   <div id="loginOverlay" class="overlay">
     <div class="panel login-card">
-      <img id="logoBtn" class="logo-btn" src="LOGOLAB.png" alt="LAB Experience" />
-      <h1 class="brand"></h1>
+      <!-- LOGO: também serve de botão para entrar/sair do fullscreen -->
+      <img id="logoBtn" class="logo-btn" src="Artboard 1.png" alt="LAB Experience" />
+      <h1 class="brand">Encontro de Dorameiros</h1>
       <p class="subtitle">Preencha para começar</p>
 
       <form id="loginForm" novalidate>
@@ -26,9 +26,11 @@
         />
         <small class="hint">Aceita 10 ou 11 dígitos (ex.: 11999998888).</small>
 
-        <!-- NOVO: botão para salvar os dados sem iniciar o jogo -->
-        <button type="button" id="btnSalvar" class="btn-outline">Salvar dados</button>
-        <!-- feedback rápido após salvar -->
+        <!-- NOVOS BOTÕES -->
+        <div class="row-actions">
+          <button type="button" id="btnSalvar" class="btn-outline">Salvar dados</button>
+          <button type="button" id="btnBaixarDados" class="btn-secondary">Baixar dados (.json)</button>
+        </div>
         <p id="saveFeedback" class="info hidden">Dados salvos!</p>
 
         <button type="submit" id="btnEntrar" class="btn-primary">Entrar e jogar</button>
@@ -61,10 +63,9 @@
     </div>
   </div>
 
-  <script src="script.js?v=salvar1"></script>
+  <script src="script.js?v=export1"></script>
 </body>
 </html>
-
 
 
 
