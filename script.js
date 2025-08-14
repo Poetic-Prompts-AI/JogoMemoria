@@ -157,8 +157,8 @@ btnSalvarBaixar?.addEventListener('click', salvarEBaixarDados);
 /* ==================== JOGO DA MEMÓRIA ==================== */
 function initGame(nomeJogador) {
   const cardsArray = [
-    '01.jpg','02.jpg','03.jpg','04.jpg',
-    '05.jpg','06.jpg','07.jpg','08.jpg'
+    '1.png','2.png','3.png','4.png',
+    '5.png','6.png','7.png','8.png'
   ];
   let cards = [...cardsArray, ...cardsArray].sort(() => 0.5 - Math.random());
 
@@ -259,5 +259,6 @@ function initGame(nomeJogador) {
 
   createBoard();
 }
+
 
 
